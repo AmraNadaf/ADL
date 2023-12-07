@@ -1,0 +1,87 @@
+Step 1: Setup Angular Project
+
+-Install Angular CLI:
+npm install -g @angular/cli
+
+-Create a new Angular project:
+ng new my-angular-app
+
+-Navigate to the project folder:
+cd my-angular-app
+
+Step 2: Create Components
+-Create two components, a parent component (app.component) and a child component (child.component).
+ng generate component parent
+ng generate component child
+
+Step 3: Design Components
+-parent.component.html
+<h1>Parent Component</h1>
+<app-child [message]="parentMessage"></app-child>
+
+-child.component.html
+<h2>Child Component</h2>
+<p>{{ message }}</p>
+
+Step 4: Pass Data between Components
+-parent.component.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-parent',
+  templateUrl: './parent.component.html',
+  styleUrls: ['./parent.component.css']
+})
+export class ParentComponent {
+  parentMessage = 'Message from Parent';
+}
+
+-child.component.ts
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent {
+  @Input() message: string | undefined;
+}
+
+Step 5: Run the Application
+ng serve
+
+Step 6: Unit Testing
+-Angular applications come with built-in testing support using Jasmine and Karma. Angular CLI provides commands to generate and run tests.
+ng test
+
+-Writing Tests
+-Example unit test for the child component:
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ChildComponent } from './child.component';
+
+describe('ChildComponent', () => {
+  let component: ChildComponent;
+  let fixture: ComponentFixture<ChildComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ChildComponent]
+    });
+
+    fixture = TestBed.createComponent(ChildComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should display the message', () => {
+    component.message = 'Test Message';
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('p').textContent).toContain('Test Message');
+  });
+});
+
+
+
+
+
